@@ -1,20 +1,38 @@
 package com.gac.edu.mcs270.hvidsten.shared;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class AddressBookEntry {
+import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
+@PersistenceCapable(identityType=IdentityType.APPLICATION)
+public class AddressBookEntry implements Serializable {
 
 /*
  * Attributes	
  */
+	@PrimaryKey
+	@Persistent
 	private String firstName;
+	@Persistent
 	private String lastName;
+	@Persistent
 	private String address;
+	@Persistent
 	private String city;
+	@Persistent
 	private String state;
+	@Persistent
 	private int zip;
+	@Persistent
 	private String email;
-	private int phoneNumber;
+	@Persistent
+	private Long phoneNumber;
 
 /*
  * Constructors	
@@ -22,7 +40,7 @@ public class AddressBookEntry {
 	public AddressBookEntry() {}
 	
 	public AddressBookEntry(String firstName, String lastName, String address, String city, 
-							String state, int zip, String email, int phoneNumber) {
+							String state, int zip, String email, Long phoneNumber) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.address = address;
@@ -92,11 +110,11 @@ public class AddressBookEntry {
 		this.email = email;
 	}
 	
-	public int getPhoneNumber() {
+	public Long getPhoneNumber() {
 		return phoneNumber;
 	}
 	
-	public void setPhoneNumber(int phoneNumber) {
+	public void setPhoneNumber(Long phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 	
@@ -106,7 +124,7 @@ public class AddressBookEntry {
 	public boolean isSearchInAddressBookEntry(String searchWord) {
 		return this.getFirstName().equals(searchWord) || this.getLastName().equals(searchWord) || this.getAddress().equals(searchWord)
 				|| this.getCity().equals(searchWord) || this.getState().equals(searchWord) || Integer.toString(this.getZip()).equals(searchWord)
-				|| this.getEmail().equals(searchWord) || Integer.toString(this.getPhoneNumber()).equals(searchWord);
+				|| this.getEmail().equals(searchWord) || Long.toString(this.getPhoneNumber()).equals(searchWord);
 	}
 
 /*
@@ -123,4 +141,5 @@ public class AddressBookEntry {
         	return Integer.compare(one.zip, other.zip);
         }
 	};
+
 }

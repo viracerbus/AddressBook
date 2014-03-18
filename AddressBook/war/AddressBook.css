@@ -15,13 +15,56 @@ h1 {
   font-size: 16pt;
 }
 
+.entryLabel {
+	margin: 10px 10px;
+}
+
+.entryTitle {
+  font-size: 3em;
+  font-weight: bold;
+  margin: 10px 0px 10px;
+  text-align: center;
+}
+
+.appTTT {
+  font-size: 5em;
+  font-weight: bold;
+  color: #777777;
+  margin: 10px 0px 10px;
+  text-align: center;
+}
+
 /** Most GWT widgets already have a style name defined */
 .gwt-DialogBox {
   width: 400px;
 }
 
+.moreInfoButton {
+	float: right;
+	clear: right;
+	position: absolute;
+	right: 20px;
+}
+
+.deleteEntryButton {
+	float: right;
+	clear: right;
+	position: absolute;
+	right: 20px;
+}
+
+.menuBar {
+	width: 100%;
+	height: 32px;
+	color: #777777;
+}
+
 .dialogVPanel {
   margin: 5px;
+}
+
+.genericButton {
+	float: right;
 }
 
 .serverResponseLabelError {

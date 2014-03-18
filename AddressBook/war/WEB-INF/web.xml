@@ -16,6 +16,26 @@
     <url-pattern>/addressbook/greet</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>postServlet</servlet-name>
+    <servlet-class>com.gac.edu.mcs270.hvidsten.server.SubmitAddressBookEntryServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>postServlet</servlet-name>
+    <url-pattern>/addressbook/submit</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>getServlet</servlet-name>
+    <servlet-class>com.gac.edu.mcs270.hvidsten.server.GetAddressBookEntryServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>getServlet</servlet-name>
+    <url-pattern>/addressbook/get</url-pattern>
+  </servlet-mapping>
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>AddressBook.html</welcome-file>

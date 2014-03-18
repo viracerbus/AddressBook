@@ -50,14 +50,14 @@ public class AddressBookModel {
 			System.out.println(entry.getAddress());
 			System.out.println(entry.getCity() + ", " + entry.getState() + " " + entry.getZip());
 			if(entry.getPhoneNumber() == 10) {
-				System.out.println("(" + Integer.toString(entry.getPhoneNumber()).substring(0, 3) 
-				+ ") " + Integer.toString(entry.getPhoneNumber()).substring(3, 6) + "-" 
-				+ Integer.toString(entry.getPhoneNumber()).substring(6, 10));
+				System.out.println("(" + Long.toString(entry.getPhoneNumber()).substring(0, 3) 
+				+ ") " + Long.toString(entry.getPhoneNumber()).substring(3, 6) + "-" 
+				+ Long.toString(entry.getPhoneNumber()).substring(6, 10));
 			} else if (entry.getPhoneNumber() == 11){
-				System.out.println(Integer.toString(entry.getPhoneNumber()).substring(0, 1) + " (" 
-				+ Integer.toString(entry.getPhoneNumber()).substring(1, 4) + ") " 
-				+ Integer.toString(entry.getPhoneNumber()).substring(4, 7) + "-" 
-				+ Integer.toString(entry.getPhoneNumber()).substring(7, 11));
+				System.out.println(Long.toString(entry.getPhoneNumber()).substring(0, 1) + " (" 
+				+ Long.toString(entry.getPhoneNumber()).substring(1, 4) + ") " 
+				+ Long.toString(entry.getPhoneNumber()).substring(4, 7) + "-" 
+				+ Long.toString(entry.getPhoneNumber()).substring(7, 11));
 			}
 			System.out.println(entry.getEmail());
 		}
