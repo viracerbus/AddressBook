@@ -1,0 +1,2 @@
+serviceClass: com.gac.edu.mcs270.hvidsten.client.GetAddressBookEntryService
+path: D64552B09C84EB212E22FAF3BFB8CDE3.gwt.rpc
