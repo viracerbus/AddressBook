@@ -1,5 +1,7 @@
 package com.gac.edu.mcs270.hvidsten.shared;
 
+import java.util.Comparator;
+
 public class AddressBookEntry {
 
 /*
@@ -97,6 +99,28 @@ public class AddressBookEntry {
 	public void setPhoneNumber(int phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-
 	
+/*
+ * Public Methods
+ */
+	public boolean isSearchInAddressBookEntry(String searchWord) {
+		return this.getFirstName().equals(searchWord) || this.getLastName().equals(searchWord) || this.getAddress().equals(searchWord)
+				|| this.getCity().equals(searchWord) || this.getState().equals(searchWord) || Integer.toString(this.getZip()).equals(searchWord)
+				|| this.getEmail().equals(searchWord) || Integer.toString(this.getPhoneNumber()).equals(searchWord);
+	}
+
+/*
+ * Comparators
+ */
+	public static Comparator<AddressBookEntry> COMPARE_BY_LASTNAME = new Comparator<AddressBookEntry>() {
+        public int compare(AddressBookEntry one, AddressBookEntry other) {
+            return one.lastName.compareTo(other.lastName);
+        }
+	};
+	
+	public static Comparator<AddressBookEntry> COMPARE_BY_ZIP = new Comparator<AddressBookEntry>() {
+        public int compare(AddressBookEntry one, AddressBookEntry other) {
+        	return Integer.compare(one.zip, other.zip);
+        }
+	};
 }
