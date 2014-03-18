@@ -14,10 +14,9 @@ SubmitAddressBookEntryService {
 		AddressBookModel.addAddressBookEntry(newAddressBookEntry);
 		return "entry submitted okay";
 	}
-
 	@Override
-	public String editAddressBookEntry(AddressBookEntry changingAddressBookEntry) {
-		AddressBookModel.editAddressBookEntry(changingAddressBookEntry);
+	public String editAddressBookEntry(AddressBookEntry changingAddressBookEntry, AddressBookEntry changes) {
+		AddressBookModel.editAddressBookEntry(changingAddressBookEntry, changes);
 		return "entry edited okay";
 	}
 

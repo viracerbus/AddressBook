@@ -14,6 +14,6 @@ public interface SubmitAddressBookEntryServiceAsync {
 			AsyncCallback<String> callback);
 
 	void editAddressBookEntry(AddressBookEntry changingAddressBookEntry,
-			AsyncCallback<String> callback);
+			AddressBookEntry changes, AsyncCallback<String> callback);
 
 }

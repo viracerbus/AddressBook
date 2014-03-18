@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
 import com.gac.edu.mcs270.hvidsten.client.GetAddressBookEntryService;
 import com.gac.edu.mcs270.hvidsten.client.SubmitAddressBookEntryService;
 
@@ -66,6 +65,36 @@ public class AddressBook implements EntryPoint {
 		
 	}
 	 
+	 public void handleEntryEdit(AddressBookEntry entry, AddressBookEntry changes) {
+		 submitAddressBookEntryService.editAddressBookEntry(entry, changes,
+					new AsyncCallback<String>() {
+				public void onFailure(Throwable caught) {
+					return;
+				}
+
+				@Override
+				public void onSuccess(String result) {
+					viewEntriesFromServer();
+					addressBookView.sendSuccessfulChangemessage();
+				}
+			});
+	 }
+	 
+	 public void handleEntryDelete(AddressBookEntry entry) {
+		 submitAddressBookEntryService.deleteAddressBookEntry(entry,
+					new AsyncCallback<String>() {
+				public void onFailure(Throwable caught) {
+					return;
+				}
+
+				@Override
+				public void onSuccess(String result) {
+					viewEntriesFromServer();
+					addressBookView.sendSuccessfulDeletePostMessage();
+				}
+			});
+	 }
+	 
 	 public void viewEntriesFromServer(){
 		 getAddressBookEntryService.getAddressBookEntriesFromServer(
 			new AsyncCallback<List<AddressBookEntry>>() {
@@ -80,4 +109,45 @@ public class AddressBook implements EntryPoint {
 			});
 	 
 	}
+	 
+	 public void searchAddressBookEntries(String searchString) {
+		 getAddressBookEntryService.searchAddressBookEntries(searchString, 
+				new AsyncCallback<List<AddressBookEntry>>() {
+					public void onFailure(Throwable caught) {
+						return;
+					}
+
+					@Override
+					public void onSuccess(List<AddressBookEntry> addressBookEntries) {
+						addressBookView.viewAddressBookEntries(addressBookEntries);
+					}
+				});
+	 }
+	 
+	 public void sortAddressBookEntriesByLastName() {
+		 getAddressBookEntryService.sortAddressBookEntriesByLastName(
+				new AsyncCallback<List<AddressBookEntry>>() {
+					public void onFailure(Throwable caught) {
+						return;
+					}
+
+					@Override
+					public void onSuccess(List<AddressBookEntry> addressBookEntries) {
+						addressBookView.viewAddressBookEntries(addressBookEntries);
+					}
+				});
+	 }
+	 public void sortAddressBookEntriesByZip() {
+		 getAddressBookEntryService.sortAddressBookEntriesByZip(
+				new AsyncCallback<List<AddressBookEntry>>() {
+					public void onFailure(Throwable caught) {
+						return;
+					}
+
+					@Override
+					public void onSuccess(List<AddressBookEntry> addressBookEntries) {
+						addressBookView.viewAddressBookEntries(addressBookEntries);
+					}
+				});
+	 }
 }

@@ -3,6 +3,7 @@ package com.gac.edu.mcs270.hvidsten.shared;
 import java.io.Serializable;
 import java.util.Comparator;
 
+import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -17,6 +18,8 @@ public class AddressBookEntry implements Serializable {
  * Attributes	
  */
 	@PrimaryKey
+	@Persistent(valueStrategy=IdGeneratorStrategy.IDENTITY)
+	private Long id;
 	@Persistent
 	private String firstName;
 	@Persistent
@@ -54,6 +57,14 @@ public class AddressBookEntry implements Serializable {
 /*
  * Getters and Setters	
  */
+	public Long getId() {
+		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public String getFirstName() {
 		return firstName;
 	}

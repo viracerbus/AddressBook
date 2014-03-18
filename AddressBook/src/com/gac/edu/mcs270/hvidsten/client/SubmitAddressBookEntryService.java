@@ -14,6 +14,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("submit")
 public interface SubmitAddressBookEntryService extends RemoteService {
 	public String addAddressBookEntry(AddressBookEntry newAddressBookEntry);	
-	public String editAddressBookEntry(AddressBookEntry changingAddressBookEntry);	
+	public String editAddressBookEntry(AddressBookEntry changingAddressBookEntry, AddressBookEntry changes);	
 	public String deleteAddressBookEntry(AddressBookEntry addressBookEntry);
 }

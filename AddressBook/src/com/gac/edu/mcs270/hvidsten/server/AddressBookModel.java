@@ -32,15 +32,32 @@ public class AddressBookModel {
 		pm.makePersistent(newAddressBookEntry);
 	}
 	
-	public static void editAddressBookEntry(AddressBookEntry changingAddressBookEntry) {
-		//TO DO IF TIME
+	public static void editAddressBookEntry(AddressBookEntry changingAddressBookEntry, AddressBookEntry changes) {
+		List<AddressBookEntry> entries = getAddressBookEntries();
+		for(AddressBookEntry entry : entries) {
+			if(entry.getId().equals(changingAddressBookEntry.getId())) {
+				entry.setFirstName(changes.getFirstName());
+				entry.setLastName(changes.getLastName());
+				entry.setAddress(changes.getAddress());
+				entry.setCity(changes.getCity());
+				entry.setState(changes.getState());
+				entry.setZip(changes.getZip());
+				entry.setEmail(changes.getEmail());
+				entry.setPhoneNumber(changes.getPhoneNumber());
+			}
+		}
 	}
 	
 	public static void deleteAddressBookEntry(AddressBookEntry addressBookEntry) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Query query = pm.newQuery(AddressBookEntry.class);
 		List<AddressBookEntry> entries = (List<AddressBookEntry>) query.execute();
-		pm.deletePersistent(addressBookEntry);
+		for(AddressBookEntry entry : entries) {
+			if(entry.getId().equals(addressBookEntry.getId())) {
+				pm.deletePersistent(entry);
+			}
+		}
+			
 	}
 	
 	public static void viewAllAddressBookEntries() {

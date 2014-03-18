@@ -11,12 +11,14 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.MenuItemSeparator;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import java.awt.MenuItem;
 import java.util.List;
 
 import com.gac.edu.mcs270.hvidsten.shared.AddressBookEntry;
@@ -280,6 +282,7 @@ public class AddressBookView {
 		deleteEntryButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+				controller.handleEntryDelete(entry);
 			}
 		});
 				
@@ -351,7 +354,7 @@ public class AddressBookView {
 		editEntryButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				
+				viewEditAddressBookEntryForm(entry);
 			}
 		});
 						
@@ -362,6 +365,42 @@ public class AddressBookView {
 		MenuBar menuBar = new MenuBar(false);
 		rp.add(menuBar, 94, 39);
 		menuBar.setSize("1000px", "32px");	
+		
+		MenuItem menuHomeItem = new MenuItem("Entries", false, new Command() {
+			public void execute() {
+				controller.viewEntriesFromServer();
+			}
+		});
+		menuHomeItem.setHTML("Entries");
+		menuBar.addItem(menuHomeItem);
+		menuBar.addSeparator(new MenuItemSeparator());
+		
+		MenuItem menuPlusItem = new MenuItem("+", false, new Command() {
+			public void execute() {
+				viewAddressBookEntryForm();
+			}
+		});
+		menuPlusItem.setHTML("+");
+		menuBar.addItem(menuPlusItem);
+		menuBar.addSeparator(new MenuItemSeparator());
+		
+		MenuItem menuSearchItem = new MenuItem("Search", false, new Command() {
+			public void execute() {
+				doEntrySearch();
+			}
+		});
+		menuSearchItem.setHTML("Search");
+		menuBar.addItem(menuSearchItem);
+		menuBar.addSeparator(new MenuItemSeparator());
+		
+		MenuItem menuSortItem = new MenuItem("Sort", false, new Command() {
+			public void execute() {
+				doEntrySort();
+			}
+		});
+		menuSortItem.setHTML("Sort");
+		menuBar.addItem(menuSortItem);
+		menuBar.addSeparator(new MenuItemSeparator());
 	}
 
 	public void makeSideBar(HorizontalPanel hp){
@@ -386,7 +425,7 @@ public class AddressBookView {
 		viewAdsButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				controller.viewEntriesFromServer();;
+				controller.viewEntriesFromServer();
 			}
 	      });
 		sidePanel.add(viewAdsButton);
@@ -415,7 +454,7 @@ public class AddressBookView {
 		
 		createEditAddressBookEntryForm(entry, flowPanel);
 	}
-	private void createEditAddressBookEntryForm(AddressBookEntry entry, FlowPanel flowPanel) {
+	private void createEditAddressBookEntryForm(final AddressBookEntry entry, FlowPanel flowPanel) {
 		
 		// First Name TextBox
 		HorizontalPanel firstNamePanel = new HorizontalPanel();
@@ -485,7 +524,7 @@ public class AddressBookView {
 		emailPanel.add(emailLabel);
 		flowPanel.add(emailPanel);
 		final TextBox emailTextBox = new TextBox();
-		
+		emailTextBox.setText(entry.getEmail());
 		flowPanel.add(emailTextBox);
 								
 		// Phone Number TextBox
@@ -495,6 +534,7 @@ public class AddressBookView {
 		phoneNumberPanel.add(phoneNumberLabel);
 		flowPanel.add(phoneNumberPanel);
 		final TextBox phoneNumberTextBox = new TextBox();
+		phoneNumberTextBox.setText("" + entry.getPhoneNumber());
 		flowPanel.add(phoneNumberTextBox);
 				
 		// Submit Button
@@ -519,9 +559,9 @@ public class AddressBookView {
 					&& state.length()>0 && email.length()>0){
 					if(zipTextBox.getText().length() == 5) {
 						if(phoneNumberTextBox.getText().length() == 10 || phoneNumberTextBox.getText().length() == 11) {
-							AddressBookEntry newEntry = new AddressBookEntry(firstName, lastName, address, city, state, zip,
+							AddressBookEntry changes = new AddressBookEntry(firstName, lastName, address, city, state, zip,
 									email, phoneNumber);
-							controller.handleEntrySubmit(newEntry);
+							controller.handleEntryEdit(entry, changes);
 						} else {
 							Window.alert("Phone Number must be ten or eleven digits");
 						}
@@ -559,6 +599,7 @@ public class AddressBookView {
 		searchBtn.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+				controller.searchAddressBookEntries(searchTermTextBox.getText());
 				searchPopup.hide();
 			}
 	      });
@@ -567,6 +608,49 @@ public class AddressBookView {
 		btnRow.add(searchBtn);
 		
 		content.add(inputRow);
+		content.add(btnRow);
+		searchPopup.setWidget(content);
+		searchPopup.center();
+	}
+	
+	protected void doEntrySort() {		
+		VerticalPanel content = new VerticalPanel();
+		content.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		
+		HorizontalPanel btnRow = new HorizontalPanel();
+		btnRow.setStyleName("search-button-row");
+		Button sortLastNameBtn = new Button("Sort by Last Name");
+		sortLastNameBtn.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				controller.sortAddressBookEntriesByLastName();
+				searchPopup.hide();
+			}
+	      });
+		
+		Button sortZipBtn = new Button("Sort by Zip Code");
+		sortZipBtn.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				controller.sortAddressBookEntriesByZip();
+				searchPopup.hide();
+			}
+	      });
+		
+		Button cancelBtn = new Button("Sort by Last Name");
+		cancelBtn.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				searchPopup.hide();
+			}
+	      });
+		
+		btnRow.add(sortLastNameBtn);
+		btnRow.add(new Label(""));
+		btnRow.add(sortZipBtn);
+		btnRow.add(new Label(""));
+		btnRow.add(cancelBtn);
+		
 		content.add(btnRow);
 		searchPopup.setWidget(content);
 		searchPopup.center();
