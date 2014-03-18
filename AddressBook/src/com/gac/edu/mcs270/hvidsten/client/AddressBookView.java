@@ -601,7 +601,7 @@ public class AddressBookView {
 			}
 	      });
 		
-		Button cancelBtn = new Button("Sort by Last Name");
+		Button cancelBtn = new Button("Cancel");
 		cancelBtn.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
