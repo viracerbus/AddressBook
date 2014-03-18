@@ -57,7 +57,6 @@ public class AddressBookView {
 		rootPanel.add(horizontalPanel, 10, 79);
 		horizontalPanel.setSize("1000px", "211px");
 		
-		makeSideBar(horizontalPanel);
 	}
 
 	public void viewAddressBookEntries(List<AddressBookEntry> addressBookEntries) {
@@ -69,8 +68,6 @@ public class AddressBookView {
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.setWidth("1000px");
 		rootPanel.add(horizontalPanel, 10, 79);
-		
-		makeSideBar(horizontalPanel);
 		
 		VerticalPanel dataListPanel = new VerticalPanel();
 		horizontalPanel.add(dataListPanel);
@@ -89,8 +86,6 @@ public class AddressBookView {
 		
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		rootPanel.add(horizontalPanel, 10, 79);
-		
-		makeSideBar(horizontalPanel);
 		
 		VerticalPanel dataListPanel = new VerticalPanel();
 		horizontalPanel.add(dataListPanel);
@@ -243,17 +238,8 @@ public class AddressBookView {
 				viewAddressBookEntry(entry);
 			}
 	      });
-/*		Button deleteButton = new Button("-");
-		deleteButton.addStyleName("moreInfoButton");
-		deleteButton.setText("-");
-		deleteButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-			}
-	      });
-*/		row.add(nameLabel);
+		row.add(nameLabel);
 		row.add(infoButton);
-//		row.add(deleteButton);
 		return row;
 	}
 	
@@ -264,8 +250,6 @@ public class AddressBookView {
 		
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		rootPanel.add(horizontalPanel, 10, 79);
-		
-		makeSideBar(horizontalPanel);
 		
 		VerticalPanel dataListPanel = new VerticalPanel();
 		horizontalPanel.add(dataListPanel);
@@ -363,8 +347,8 @@ public class AddressBookView {
 
 	public void makeMenuBar(RootPanel rp){
 		MenuBar menuBar = new MenuBar(false);
-		rp.add(menuBar, 94, 39);
-		menuBar.setSize("1000px", "32px");	
+		rp.add(menuBar, 0, 39);
+		menuBar.setSize("1000px", "60px");	
 		
 		MenuItem menuHomeItem = new MenuItem("Entries", false, new Command() {
 			public void execute() {
@@ -372,17 +356,12 @@ public class AddressBookView {
 			}
 		});
 		menuHomeItem.setHTML("Entries");
+		menuHomeItem.setWidth("600px");
+		menuHomeItem.addStyleName("menuBarButton");
 		menuBar.addItem(menuHomeItem);
-		menuBar.addSeparator(new MenuItemSeparator());
-		
-		MenuItem menuPlusItem = new MenuItem("+", false, new Command() {
-			public void execute() {
-				viewAddressBookEntryForm();
-			}
-		});
-		menuPlusItem.setHTML("+");
-		menuBar.addItem(menuPlusItem);
-		menuBar.addSeparator(new MenuItemSeparator());
+		MenuItemSeparator homeSeparator = new MenuItemSeparator();
+		homeSeparator.setSize("100px", "33px");
+		menuBar.addSeparator(homeSeparator);
 		
 		MenuItem menuSearchItem = new MenuItem("Search", false, new Command() {
 			public void execute() {
@@ -390,6 +369,8 @@ public class AddressBookView {
 			}
 		});
 		menuSearchItem.setHTML("Search");
+		menuSearchItem.setWidth("125px");
+		menuSearchItem.addStyleName("menuBarButton");
 		menuBar.addItem(menuSearchItem);
 		menuBar.addSeparator(new MenuItemSeparator());
 		
@@ -399,36 +380,21 @@ public class AddressBookView {
 			}
 		});
 		menuSortItem.setHTML("Sort");
+		menuSortItem.setWidth("125px");
+		menuSortItem.addStyleName("menuBarButton");
 		menuBar.addItem(menuSortItem);
 		menuBar.addSeparator(new MenuItemSeparator());
-	}
-
-	public void makeSideBar(HorizontalPanel hp){
-		VerticalPanel sidePanel = new VerticalPanel();
-		hp.add(sidePanel);
-		sidePanel.setSize("72px", "98px");
 		
-		Button postAdButton = new Button("+");
-		postAdButton.setStyleName("sideBarButton");
-		postAdButton.setText("+");
-		postAdButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
+		MenuItem menuPlusItem = new MenuItem("+", false, new Command() {
+			public void execute() {
 				viewAddressBookEntryForm();
 			}
-	      });
-		sidePanel.add(postAdButton);
-		
-		Button viewAdsButton = new Button("Entries");
-		viewAdsButton.setStyleName("sideBarButton");
-		viewAdsButton.setText("Entries");
-		viewAdsButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				controller.viewEntriesFromServer();
-			}
-	      });
-		sidePanel.add(viewAdsButton);
+		});
+		menuPlusItem.setHTML("+");
+		menuPlusItem.setWidth("50px");
+		menuPlusItem.addStyleName("menuBarButton");
+		menuBar.addItem(menuPlusItem);
+		menuBar.addSeparator(new MenuItemSeparator());
 	}
 
 	public void viewEditAddressBookEntryForm(AddressBookEntry entry) {
@@ -438,8 +404,6 @@ public class AddressBookView {
 		
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		rootPanel.add(horizontalPanel, 10, 79);
-		
-		makeSideBar(horizontalPanel);
 		
 		VerticalPanel dataListPanel = new VerticalPanel();
 		horizontalPanel.add(dataListPanel);

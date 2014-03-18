@@ -59,6 +59,13 @@ h1 {
 	color: #777777;
 }
 
+.menuBarButton {
+	font-size: 3em;
+  	font-weight: bold;
+ 	margin: 10px 0px 10px;
+ 	text-align: center;
+}
+
 .dialogVPanel {
   margin: 5px;
 }
