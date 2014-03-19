@@ -9,8 +9,12 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
+/**
+ * 
+ * @author Dustin Luhmann, Kevin Dexter, and Aaron Brau
+ *
+ */
+@SuppressWarnings("serial")
 @PersistenceCapable(identityType=IdentityType.APPLICATION)
 public class AddressBookEntry implements Serializable {
 
@@ -132,7 +136,13 @@ public class AddressBookEntry implements Serializable {
 /*
  * Public Methods
  */
+	/**
+	 * Returns if a word is in an Address Book entry
+	 * @param searchWord The word that is being compared to the attributes
+	 * @return true if the searchWord is in an of the attributes and false if the searchWord is not
+	 */
 	public boolean isSearchInAddressBookEntry(String searchWord) {
+		// Checks the search word against every attribute of the Address Book Entry
 		return this.getFirstName().equals(searchWord) || this.getLastName().equals(searchWord) || this.getAddress().equals(searchWord)
 				|| this.getCity().equals(searchWord) || this.getState().equals(searchWord) || Integer.toString(this.getZip()).equals(searchWord)
 				|| this.getEmail().equals(searchWord) || Long.toString(this.getPhoneNumber()).equals(searchWord);
@@ -141,12 +151,18 @@ public class AddressBookEntry implements Serializable {
 /*
  * Comparators
  */
+	/**
+	 * Compares two Address Book Entries based on each entries last name
+	 */
 	public static Comparator<AddressBookEntry> COMPARE_BY_LASTNAME = new Comparator<AddressBookEntry>() {
         public int compare(AddressBookEntry one, AddressBookEntry other) {
             return one.lastName.compareTo(other.lastName);
         }
 	};
 	
+	/**
+	 * Compares two Address Book Entries based on each entries zip code
+	 */
 	public static Comparator<AddressBookEntry> COMPARE_BY_ZIP = new Comparator<AddressBookEntry>() {
         public int compare(AddressBookEntry one, AddressBookEntry other) {
         	return Integer.compare(one.zip, other.zip);

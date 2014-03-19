@@ -8,14 +8,12 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.MenuItemSeparator;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -23,6 +21,10 @@ import java.util.List;
 
 import com.gac.edu.mcs270.hvidsten.shared.AddressBookEntry;
 
+/**
+ * View for an Address Book
+ * @author Dustin Luhmann, Kevin Dexter, and Aaron Brau
+ */
 public class AddressBookView {
 	
 /*
@@ -36,7 +38,6 @@ public class AddressBookView {
  */
 	public AddressBookView() {}
 	
-	
 /*
  * Getters and Setters
  */
@@ -47,6 +48,12 @@ public class AddressBookView {
 	public void setController(AddressBook controler) {
 		this.controller = controler;
 	}
+
+/*
+ * Public Methods
+ */
+	
+//View Methods//
 	
 	public void viewWelcomePage(){
 		RootPanel rootPanel = RootPanel.get();
@@ -100,6 +107,133 @@ public class AddressBookView {
 		
 		createAddressBookEntryForm(flowPanel);
 	}
+	
+	private void viewAddressBookEntry(final AddressBookEntry entry) {
+		RootPanel rootPanel = RootPanel.get();
+		rootPanel.clear();
+		makeMenuBar(rootPanel);
+		
+		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		rootPanel.add(horizontalPanel, 10, 79);
+		
+		VerticalPanel dataListPanel = new VerticalPanel();
+		horizontalPanel.add(dataListPanel);
+		
+		FlowPanel flowPanel = new FlowPanel();
+		dataListPanel.add(flowPanel);
+		
+		// Delete Entry Button
+		Button deleteEntryButton = new Button("-");
+		deleteEntryButton.setStyleName("deleteEntryButton");
+		deleteEntryButton.setText("-");
+												
+		// Delete Entry Click Handler
+		deleteEntryButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				controller.handleEntryDelete(entry);
+			}
+		});
+				
+		flowPanel.add(deleteEntryButton);
+		
+		// First Name TextBox
+		HorizontalPanel firstNamePanel = new HorizontalPanel();
+		Label firstNameLabel = new Label(entry.getFirstName());
+		firstNameLabel.addStyleName("entryLabel");
+		firstNamePanel.add(firstNameLabel);
+		flowPanel.add(firstNamePanel);
+
+						
+		// Last Name TextBox
+		HorizontalPanel lastNamePanel = new HorizontalPanel();
+		Label lastNameLabel = new Label(entry.getLastName());
+		lastNameLabel.addStyleName("entryLabel");
+		lastNamePanel.add(lastNameLabel);
+		flowPanel.add(lastNamePanel);
+								
+		// Address TextArea
+		HorizontalPanel addressPanel = new HorizontalPanel();
+		Label addressLabel = new Label(entry.getAddress());
+		addressLabel.addStyleName("entryLabel");
+		addressPanel.add(addressLabel);
+		flowPanel.add(addressPanel);
+								
+		// City TextBox
+		HorizontalPanel cityPanel = new HorizontalPanel();
+		Label cityLabel = new Label(entry.getCity());
+		cityLabel.addStyleName("entryLabel");
+		cityPanel.add(cityLabel);
+		flowPanel.add(cityPanel);
+				
+		// State TextBox
+		HorizontalPanel statePanel = new HorizontalPanel();
+		Label stateLabel = new Label(entry.getState());
+		stateLabel.addStyleName("entryLabel");
+		statePanel.add(stateLabel);
+		flowPanel.add(statePanel);
+				
+		// Zip TextBox
+		HorizontalPanel zipPanel = new HorizontalPanel();
+		Label zipLabel = new Label(Integer.toString(entry.getZip()));
+		zipLabel.addStyleName("entryLabel");
+		zipPanel.add(zipLabel);
+		flowPanel.add(zipPanel);
+				
+		// Email TextBox
+		HorizontalPanel emailPanel = new HorizontalPanel();
+		Label emailLabel = new Label(entry.getEmail());
+		emailLabel.addStyleName("entryLabel");
+		emailPanel.add(emailLabel);
+		flowPanel.add(emailPanel);
+						
+		// Phone Number TextBox
+		HorizontalPanel phoneNumberPanel = new HorizontalPanel();
+		Label phoneNumberLabel = new Label(Long.toString(entry.getPhoneNumber()));
+		phoneNumberLabel.addStyleName("entryLabel");
+		phoneNumberPanel.add(phoneNumberLabel);
+		flowPanel.add(phoneNumberPanel);
+								
+		// Edit Entry Button
+		Button editEntryButton = new Button("Edit Entry");
+		editEntryButton.setStyleName("sideBarButton");
+		editEntryButton.setText("Edit Entry");
+								
+		// Edit Entry Click Handler
+		editEntryButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				viewEditAddressBookEntry(entry);
+			}
+		});
+						
+		flowPanel.add(editEntryButton);
+		}
+	
+	public void viewEditAddressBookEntry(AddressBookEntry entry) {
+		RootPanel rootPanel = RootPanel.get();
+		rootPanel.clear();
+		makeMenuBar(rootPanel);
+		
+		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		rootPanel.add(horizontalPanel, 10, 79);
+		
+		VerticalPanel dataListPanel = new VerticalPanel();
+		horizontalPanel.add(dataListPanel);
+		
+		FlowPanel flowPanel = new FlowPanel();
+		dataListPanel.add(flowPanel);
+		
+		Label progTitlebar = new Label("New Entry");
+		progTitlebar.addStyleName("appTTT");
+		progTitlebar.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		flowPanel.add(progTitlebar);
+		
+		createEditAddressBookEntryForm(entry, flowPanel);
+	}
+	
+//Create Methods//
+	
 	private void createAddressBookEntryForm(FlowPanel flowPanel) {
 		
 		// First Name TextBox
@@ -214,210 +348,6 @@ public class AddressBookView {
 		flowPanel.add(submitButton);
 	}
 	
-	private void makeAddressBookEntryTable(List<AddressBookEntry> entries, FlowPanel flowPanel) {
-		Label progTitlebar = new Label("Entries");
-		progTitlebar.addStyleName("appTTT");
-		progTitlebar.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		progTitlebar.setAutoHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		flowPanel.add(progTitlebar);
-		for(AddressBookEntry entry: entries){
-			flowPanel.add(makeAddressBookEntryRow(entry));
-		}
-	}
-	
-	private HorizontalPanel makeAddressBookEntryRow(final AddressBookEntry entry) {
-		HorizontalPanel row = new HorizontalPanel();
-		Label nameLabel = new Label(entry.getFirstName() + " " + entry.getLastName());
-		nameLabel.addStyleName("entryLabel");
-		Button infoButton = new Button("Info");
-		infoButton.addStyleName("moreInfoButton");
-		infoButton.setText("Info");
-		infoButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				viewAddressBookEntry(entry);
-			}
-	      });
-		row.add(nameLabel);
-		row.add(infoButton);
-		return row;
-	}
-	
-	private void viewAddressBookEntry(final AddressBookEntry entry) {
-		RootPanel rootPanel = RootPanel.get();
-		rootPanel.clear();
-		makeMenuBar(rootPanel);
-		
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		rootPanel.add(horizontalPanel, 10, 79);
-		
-		VerticalPanel dataListPanel = new VerticalPanel();
-		horizontalPanel.add(dataListPanel);
-		
-		FlowPanel flowPanel = new FlowPanel();
-		dataListPanel.add(flowPanel);
-		
-		// Delete Entry Button
-		Button deleteEntryButton = new Button("-");
-		deleteEntryButton.setStyleName("deleteEntryButton");
-		deleteEntryButton.setText("-");
-												
-		// Delete Entry Click Handler
-		deleteEntryButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				controller.handleEntryDelete(entry);
-			}
-		});
-				
-		flowPanel.add(deleteEntryButton);
-		
-		// First Name TextBox
-		HorizontalPanel firstNamePanel = new HorizontalPanel();
-		Label firstNameLabel = new Label(entry.getFirstName());
-		firstNameLabel.addStyleName("entryLabel");
-		firstNamePanel.add(firstNameLabel);
-		flowPanel.add(firstNamePanel);
-
-						
-		// Last Name TextBox
-		HorizontalPanel lastNamePanel = new HorizontalPanel();
-		Label lastNameLabel = new Label(entry.getLastName());
-		lastNameLabel.addStyleName("entryLabel");
-		lastNamePanel.add(lastNameLabel);
-		flowPanel.add(lastNamePanel);
-								
-		// Address TextArea
-		HorizontalPanel addressPanel = new HorizontalPanel();
-		Label addressLabel = new Label(entry.getAddress());
-		addressLabel.addStyleName("entryLabel");
-		addressPanel.add(addressLabel);
-		flowPanel.add(addressPanel);
-								
-		// City TextBox
-		HorizontalPanel cityPanel = new HorizontalPanel();
-		Label cityLabel = new Label(entry.getCity());
-		cityLabel.addStyleName("entryLabel");
-		cityPanel.add(cityLabel);
-		flowPanel.add(cityPanel);
-				
-		// State TextBox
-		HorizontalPanel statePanel = new HorizontalPanel();
-		Label stateLabel = new Label(entry.getState());
-		stateLabel.addStyleName("entryLabel");
-		statePanel.add(stateLabel);
-		flowPanel.add(statePanel);
-				
-		// Zip TextBox
-		HorizontalPanel zipPanel = new HorizontalPanel();
-		Label zipLabel = new Label(Integer.toString(entry.getZip()));
-		zipLabel.addStyleName("entryLabel");
-		zipPanel.add(zipLabel);
-		flowPanel.add(zipPanel);
-				
-		// Email TextBox
-		HorizontalPanel emailPanel = new HorizontalPanel();
-		Label emailLabel = new Label(entry.getEmail());
-		emailLabel.addStyleName("entryLabel");
-		emailPanel.add(emailLabel);
-		flowPanel.add(emailPanel);
-						
-		// Phone Number TextBox
-		HorizontalPanel phoneNumberPanel = new HorizontalPanel();
-		Label phoneNumberLabel = new Label(Long.toString(entry.getPhoneNumber()));
-		phoneNumberLabel.addStyleName("entryLabel");
-		phoneNumberPanel.add(phoneNumberLabel);
-		flowPanel.add(phoneNumberPanel);
-								
-		// Edit Entry Button
-		Button editEntryButton = new Button("Edit Entry");
-		editEntryButton.setStyleName("sideBarButton");
-		editEntryButton.setText("Edit Entry");
-								
-		// Edit Entry Click Handler
-		editEntryButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				viewEditAddressBookEntryForm(entry);
-			}
-		});
-						
-		flowPanel.add(editEntryButton);
-		}	
-
-	public void makeMenuBar(RootPanel rp){
-		MenuBar menuBar = new MenuBar(false);
-		rp.add(menuBar, 0, 39);
-		menuBar.setSize("1000px", "60px");	
-		
-		MenuItem menuHomeItem = new MenuItem("Entries", false, new Command() {
-			public void execute() {
-				controller.viewEntriesFromServer();
-			}
-		});
-		menuHomeItem.setHTML("Entries");
-		menuHomeItem.setWidth("600px");
-		menuHomeItem.addStyleName("menuBarButton");
-		menuBar.addItem(menuHomeItem);
-		MenuItemSeparator homeSeparator = new MenuItemSeparator();
-		homeSeparator.setSize("100px", "33px");
-		menuBar.addSeparator(homeSeparator);
-		
-		MenuItem menuSearchItem = new MenuItem("Search", false, new Command() {
-			public void execute() {
-				doEntrySearch();
-			}
-		});
-		menuSearchItem.setHTML("Search");
-		menuSearchItem.setWidth("125px");
-		menuSearchItem.addStyleName("menuBarButton");
-		menuBar.addItem(menuSearchItem);
-		menuBar.addSeparator(new MenuItemSeparator());
-		
-		MenuItem menuSortItem = new MenuItem("Sort", false, new Command() {
-			public void execute() {
-				doEntrySort();
-			}
-		});
-		menuSortItem.setHTML("Sort");
-		menuSortItem.setWidth("125px");
-		menuSortItem.addStyleName("menuBarButton");
-		menuBar.addItem(menuSortItem);
-		menuBar.addSeparator(new MenuItemSeparator());
-		
-		MenuItem menuPlusItem = new MenuItem("+", false, new Command() {
-			public void execute() {
-				viewAddressBookEntryForm();
-			}
-		});
-		menuPlusItem.setHTML("+");
-		menuPlusItem.setWidth("50px");
-		menuPlusItem.addStyleName("menuBarButton");
-		menuBar.addItem(menuPlusItem);
-		menuBar.addSeparator(new MenuItemSeparator());
-	}
-
-	public void viewEditAddressBookEntryForm(AddressBookEntry entry) {
-		RootPanel rootPanel = RootPanel.get();
-		rootPanel.clear();
-		makeMenuBar(rootPanel);
-		
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		rootPanel.add(horizontalPanel, 10, 79);
-		
-		VerticalPanel dataListPanel = new VerticalPanel();
-		horizontalPanel.add(dataListPanel);
-		
-		FlowPanel flowPanel = new FlowPanel();
-		dataListPanel.add(flowPanel);
-		
-		Label progTitlebar = new Label("New Entry");
-		progTitlebar.addStyleName("appTTT");
-		progTitlebar.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		flowPanel.add(progTitlebar);
-		
-		createEditAddressBookEntryForm(entry, flowPanel);
-	}
 	private void createEditAddressBookEntryForm(final AddressBookEntry entry, FlowPanel flowPanel) {
 		
 		// First Name TextBox
@@ -540,6 +470,91 @@ public class AddressBookView {
 		flowPanel.add(submitButton);
 	}
 
+//Make Methods//
+	
+	public void makeMenuBar(RootPanel rp){
+		MenuBar menuBar = new MenuBar(false);
+		rp.add(menuBar, 0, 39);
+		menuBar.setSize("1000px", "60px");	
+		
+		MenuItem menuHomeItem = new MenuItem("Entries", false, new Command() {
+			public void execute() {
+				controller.viewEntriesFromServer();
+			}
+		});
+		menuHomeItem.setHTML("Entries");
+		menuHomeItem.setWidth("600px");
+		menuHomeItem.addStyleName("menuBarButton");
+		menuBar.addItem(menuHomeItem);
+		MenuItemSeparator homeSeparator = new MenuItemSeparator();
+		homeSeparator.setSize("100px", "33px");
+		menuBar.addSeparator(homeSeparator);
+		
+		MenuItem menuSearchItem = new MenuItem("Search", false, new Command() {
+			public void execute() {
+				doEntrySearch();
+			}
+		});
+		menuSearchItem.setHTML("Search");
+		menuSearchItem.setWidth("125px");
+		menuSearchItem.addStyleName("menuBarButton");
+		menuBar.addItem(menuSearchItem);
+		menuBar.addSeparator(new MenuItemSeparator());
+		
+		MenuItem menuSortItem = new MenuItem("Sort", false, new Command() {
+			public void execute() {
+				doEntrySort();
+			}
+		});
+		menuSortItem.setHTML("Sort");
+		menuSortItem.setWidth("125px");
+		menuSortItem.addStyleName("menuBarButton");
+		menuBar.addItem(menuSortItem);
+		menuBar.addSeparator(new MenuItemSeparator());
+		
+		MenuItem menuPlusItem = new MenuItem("+", false, new Command() {
+			public void execute() {
+				viewAddressBookEntryForm();
+			}
+		});
+		menuPlusItem.setHTML("+");
+		menuPlusItem.setWidth("50px");
+		menuPlusItem.addStyleName("menuBarButton");
+		menuBar.addItem(menuPlusItem);
+		menuBar.addSeparator(new MenuItemSeparator());
+	}
+	
+	private void makeAddressBookEntryTable(List<AddressBookEntry> entries, FlowPanel flowPanel) {
+		Label progTitlebar = new Label("Entries");
+		progTitlebar.addStyleName("appTTT");
+		progTitlebar.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		progTitlebar.setAutoHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		flowPanel.add(progTitlebar);
+		for(AddressBookEntry entry: entries){
+			flowPanel.add(makeAddressBookEntryRow(entry));
+		}
+	}
+	
+	private HorizontalPanel makeAddressBookEntryRow(final AddressBookEntry entry) {
+		HorizontalPanel row = new HorizontalPanel();
+		Label nameLabel = new Label(entry.getFirstName() + " " + entry.getLastName());
+		nameLabel.addStyleName("entryLabel");
+		Button infoButton = new Button("Info");
+		infoButton.addStyleName("moreInfoButton");
+		infoButton.setText("Info");
+		infoButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				viewAddressBookEntry(entry);
+			}
+	      });
+		row.add(nameLabel);
+		row.add(infoButton);
+		return row;
+	}	
+	
+//Do Methods//
+
 	protected void doEntrySearch() {		
 		VerticalPanel content = new VerticalPanel();
 		content.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
@@ -620,7 +635,10 @@ public class AddressBookView {
 		searchPopup.center();
 	}
 	
-	public void sendSuccessfulPostmessage() {
+
+//Send Methods//
+	
+	public void sendSuccessfulStoremessage() {
 		Window.alert("Entry was successfully stored.");
 	}
 	
@@ -632,75 +650,3 @@ public class AddressBookView {
 		Window.alert("Entry was successfully deleted.");
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-
-
-	
-	
-	
-	
-	

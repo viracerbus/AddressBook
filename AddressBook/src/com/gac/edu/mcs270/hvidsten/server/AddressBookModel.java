@@ -10,28 +10,49 @@ import javax.jdo.Query;
 
 import com.gac.edu.mcs270.hvidsten.shared.AddressBookEntry;
 
+/**
+ * Model for Address Book
+ * @author Dustin Luhmann, Kevin Dexter, and Aaron Brau
+ */
 public class AddressBookModel {
 
 /*
  * Attributes
  */
+	/**
+	 * Persistence
+	 */
 	static final PersistenceManagerFactory pmf = PMF.get();
 
 /*
  * Public Methods	
  */
+	/**
+	 * Gets the Address Book Entries from the persistence
+	 * @return All Address Book Entries from the persistence
+	 */
 	public static List<AddressBookEntry> getAddressBookEntries() {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Query query = pm.newQuery(AddressBookEntry.class);
+		@SuppressWarnings("unchecked")
 		List<AddressBookEntry> entries = (List<AddressBookEntry>) query.execute();
 		return new ArrayList<AddressBookEntry>(entries);
 	}
 	
+	/**
+	 * Adds an Address Book Entry into the persistence
+	 * @param newAddressBookEntry The Address Book Entry that is being added
+	 */
 	public static void addAddressBookEntry(AddressBookEntry newAddressBookEntry) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.makePersistent(newAddressBookEntry);
 	}
 	
+	/**
+	 * Changes an Address Book Entry and saves the changes into the persistence
+	 * @param changingAddressBookEntry The Address Book Entry that is being changed
+	 * @param changes An Address Book Entry that holds the changes needed for the changingAddressBookEntry
+	 */
 	public static void editAddressBookEntry(AddressBookEntry changingAddressBookEntry, AddressBookEntry changes) {
 		List<AddressBookEntry> entries = getAddressBookEntries();
 		for(AddressBookEntry entry : entries) {
@@ -48,9 +69,14 @@ public class AddressBookModel {
 		}
 	}
 	
+	/**
+	 * Deletes an Address Book Entry from the persistence
+	 * @param addressBookEntry
+	 */
 	public static void deleteAddressBookEntry(AddressBookEntry addressBookEntry) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Query query = pm.newQuery(AddressBookEntry.class);
+		@SuppressWarnings("unchecked")
 		List<AddressBookEntry> entries = (List<AddressBookEntry>) query.execute();
 		for(AddressBookEntry entry : entries) {
 			if(entry.getId().equals(addressBookEntry.getId())) {
@@ -60,6 +86,9 @@ public class AddressBookModel {
 			
 	}
 	
+	/**
+	 * Prints out all Address Book Entries from the persistence in mailing format
+	 */
 	public static void viewAllAddressBookEntries() {
 		List<AddressBookEntry> entries = getAddressBookEntries();
 		for(AddressBookEntry entry : entries) {
@@ -80,6 +109,11 @@ public class AddressBookModel {
 		}
 	}
 	
+	/**
+	 * Searches the persistence for an entry with attributes that match the searchString
+	 * @param searchString The string that is being compared to the attributes all Address Book Entries from the persistence
+	 * @return All Address Book Entries that match the searchString
+	 */
 	public static List<AddressBookEntry> searchAddressBookEntries(String searchString) {
 		List<AddressBookEntry> entries = getAddressBookEntries();
 		List<AddressBookEntry> searchedEntries = new ArrayList<AddressBookEntry>();
@@ -96,12 +130,20 @@ public class AddressBookModel {
 		return searchedEntries;
 	}
 
+	/**
+	 * Sorts all Address Book Entries from the persistence by last name
+	 * @return All Address Book Entries sorted by last name
+	 */
 	public static List<AddressBookEntry> sortAddressBookEntriesByLastName() {
 		List<AddressBookEntry> entries = getAddressBookEntries();
 		Collections.sort(entries, AddressBookEntry.COMPARE_BY_LASTNAME);
 		return entries;
 	}
 	
+	/**
+	 * Sorts all Address Book Entries from the persistence by zip code
+	 * @return All Address Book Entries sorted by last zip code
+	 */
 	public static List<AddressBookEntry> sortAddressBookEntriesByZip() {
 		List<AddressBookEntry> entries = getAddressBookEntries();
 		Collections.sort(entries, AddressBookEntry.COMPARE_BY_ZIP);
