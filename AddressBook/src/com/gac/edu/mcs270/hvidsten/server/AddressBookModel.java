@@ -57,6 +57,7 @@ public class AddressBookModel {
 		List<AddressBookEntry> entries = getAddressBookEntries();
 		for(AddressBookEntry entry : entries) {
 			if(entry.getId().equals(changingAddressBookEntry.getId())) {
+				// Changes each attribute of entry to the attributes of the changes
 				entry.setFirstName(changes.getFirstName());
 				entry.setLastName(changes.getLastName());
 				entry.setAddress(changes.getAddress());
@@ -95,11 +96,11 @@ public class AddressBookModel {
 			System.out.println(entry.getFirstName() + " " + entry.getLastName());
 			System.out.println(entry.getAddress());
 			System.out.println(entry.getCity() + ", " + entry.getState() + " " + entry.getZip());
-			if(entry.getPhoneNumber() == 10) {
+			if(entry.getPhoneNumber() == 10) { // Executed if there should not be a number before the area code
 				System.out.println("(" + Long.toString(entry.getPhoneNumber()).substring(0, 3) 
 				+ ") " + Long.toString(entry.getPhoneNumber()).substring(3, 6) + "-" 
 				+ Long.toString(entry.getPhoneNumber()).substring(6, 10));
-			} else if (entry.getPhoneNumber() == 11){
+			} else if (entry.getPhoneNumber() == 11){ // Executed if there should be a number before the area code
 				System.out.println(Long.toString(entry.getPhoneNumber()).substring(0, 1) + " (" 
 				+ Long.toString(entry.getPhoneNumber()).substring(1, 4) + ") " 
 				+ Long.toString(entry.getPhoneNumber()).substring(4, 7) + "-" 
@@ -119,8 +120,8 @@ public class AddressBookModel {
 		List<AddressBookEntry> searchedEntries = new ArrayList<AddressBookEntry>();
 		String[] searchStrings = searchString.split("\\s+"); // "\\s+" is a string of white space
 		for(AddressBookEntry entry : entries) {
-			for(String searchWord : searchStrings) {
-				if(entry.isSearchInAddressBookEntry(searchWord)) {
+			for(String searchWord : searchStrings) { // Cycles through each word in the searchString
+				if(entry.isSearchInAddressBookEntry(searchWord)) { // Compare each attribute to the searchString
 					if(!searchedEntries.contains(entry)) {
 						searchedEntries.add(entry);
 					}

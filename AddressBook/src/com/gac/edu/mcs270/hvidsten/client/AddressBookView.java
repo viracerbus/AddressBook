@@ -63,11 +63,10 @@ public class AddressBookView {
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		rootPanel.add(horizontalPanel, 10, 79);
 		horizontalPanel.setSize("1000px", "211px");
-		
 	}
 
 	public void viewAddressBookEntries(List<AddressBookEntry> addressBookEntries) {
-		
+		// Base Page
 		RootPanel rootPanel = RootPanel.get();
 		rootPanel.clear();
 		makeMenuBar(rootPanel);
@@ -82,11 +81,13 @@ public class AddressBookView {
 		FlowPanel flowPanel = new FlowPanel();
 		dataListPanel.add(flowPanel);
 		
+		// Creates Table Containing Address Book Entries
 		if(addressBookEntries == null) { return; }
 		makeAddressBookEntryTable(addressBookEntries, flowPanel);
 	}
 	
 	public void viewAddressBookEntryForm() {
+		// Base Page
 		RootPanel rootPanel = RootPanel.get();
 		rootPanel.clear();
 		makeMenuBar(rootPanel);
@@ -105,10 +106,12 @@ public class AddressBookView {
 		progTitlebar.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		flowPanel.add(progTitlebar);
 		
+		// Creates Address Book Entry Form
 		createAddressBookEntryForm(flowPanel);
 	}
 	
 	private void viewAddressBookEntry(final AddressBookEntry entry) {
+		// Base Page
 		RootPanel rootPanel = RootPanel.get();
 		rootPanel.clear();
 		makeMenuBar(rootPanel);
@@ -211,6 +214,7 @@ public class AddressBookView {
 		}
 	
 	public void viewEditAddressBookEntry(AddressBookEntry entry) {
+		// Base Page
 		RootPanel rootPanel = RootPanel.get();
 		rootPanel.clear();
 		makeMenuBar(rootPanel);
@@ -229,6 +233,7 @@ public class AddressBookView {
 		progTitlebar.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		flowPanel.add(progTitlebar);
 		
+		// Creates Address Book Entry Edit Form
 		createEditAddressBookEntryForm(entry, flowPanel);
 	}
 	
@@ -335,13 +340,16 @@ public class AddressBookView {
 									email, phoneNumber);
 							controller.handleEntrySubmit(newEntry);
 						} else {
+							// Phone Number Error
 							Window.alert("Phone Number must be ten or eleven digits");
 						}
 					} else {
+						// Zip Code Error
 						Window.alert("Zip Code must be five digits");
 					}
 				} else {
-					Window.alert("Post must have every field filled");
+					// Empty field Error
+					Window.alert("Entry must have every field filled");
 				}
 			}
 		});
@@ -457,12 +465,15 @@ public class AddressBookView {
 									email, phoneNumber);
 							controller.handleEntryEdit(entry, changes);
 						} else {
+							// Phone Number Error
 							Window.alert("Phone Number must be ten or eleven digits");
 						}
 					} else {
+						// Zip Code Error
 						Window.alert("Zip Code must be five digits");
 					}
 				} else {
+					// Empty Field Error
 					Window.alert("Post must have every field filled");
 				}
 			}
@@ -477,6 +488,7 @@ public class AddressBookView {
 		rp.add(menuBar, 0, 39);
 		menuBar.setSize("1000px", "60px");	
 		
+		// Entries Button
 		MenuItem menuHomeItem = new MenuItem("Entries", false, new Command() {
 			public void execute() {
 				controller.viewEntriesFromServer();
@@ -490,6 +502,7 @@ public class AddressBookView {
 		homeSeparator.setSize("100px", "33px");
 		menuBar.addSeparator(homeSeparator);
 		
+		// Search Button
 		MenuItem menuSearchItem = new MenuItem("Search", false, new Command() {
 			public void execute() {
 				doEntrySearch();
@@ -501,6 +514,7 @@ public class AddressBookView {
 		menuBar.addItem(menuSearchItem);
 		menuBar.addSeparator(new MenuItemSeparator());
 		
+		// Sort Button
 		MenuItem menuSortItem = new MenuItem("Sort", false, new Command() {
 			public void execute() {
 				doEntrySort();
@@ -512,6 +526,7 @@ public class AddressBookView {
 		menuBar.addItem(menuSortItem);
 		menuBar.addSeparator(new MenuItemSeparator());
 		
+		// Plus Button
 		MenuItem menuPlusItem = new MenuItem("+", false, new Command() {
 			public void execute() {
 				viewAddressBookEntryForm();
@@ -559,12 +574,14 @@ public class AddressBookView {
 		VerticalPanel content = new VerticalPanel();
 		content.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 
+		// Search Text Box
 		HorizontalPanel inputRow = new HorizontalPanel();
 		Label searchTermLabel = new Label("Search Title Term: ");
 		final TextBox searchTermTextBox = new TextBox();
 		inputRow.add(searchTermLabel);
 		inputRow.add(searchTermTextBox);
 		
+		// Cancel Button
 		HorizontalPanel btnRow = new HorizontalPanel();
 		btnRow.setStyleName("search-button-row");
 		Button cancelBtn = new Button("Cancel");
@@ -574,6 +591,8 @@ public class AddressBookView {
 				searchPopup.hide();
 			}
 	      });
+		
+		// Search Button
 		Button searchBtn = new Button("Search");
 		searchBtn.addClickHandler(new ClickHandler() {
 			@Override
@@ -596,6 +615,7 @@ public class AddressBookView {
 		VerticalPanel content = new VerticalPanel();
 		content.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		
+		// Sort by Last Name Button
 		HorizontalPanel btnRow = new HorizontalPanel();
 		btnRow.setStyleName("search-button-row");
 		Button sortLastNameBtn = new Button("Sort by Last Name");
@@ -607,6 +627,7 @@ public class AddressBookView {
 			}
 	      });
 		
+		// Sort by Zip Code Button
 		Button sortZipBtn = new Button("Sort by Zip Code");
 		sortZipBtn.addClickHandler(new ClickHandler() {
 			@Override
@@ -616,6 +637,7 @@ public class AddressBookView {
 			}
 	      });
 		
+		// Cancel Button
 		Button cancelBtn = new Button("Cancel");
 		cancelBtn.addClickHandler(new ClickHandler() {
 			@Override
