@@ -6,16 +6,7 @@
          xmlns="http://java.sun.com/xml/ns/javaee">
 
   <!-- Servlets -->
-  <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>com.gac.edu.mcs270.hvidsten.server.GreetingServiceImpl</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/addressbook/greet</url-pattern>
-  </servlet-mapping>
-  
+
   <servlet>
     <servlet-name>postServlet</servlet-name>
     <servlet-class>com.gac.edu.mcs270.hvidsten.server.SubmitAddressBookEntryServiceImpl</servlet-class>

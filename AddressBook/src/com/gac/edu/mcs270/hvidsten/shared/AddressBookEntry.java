@@ -165,7 +165,7 @@ public class AddressBookEntry implements Serializable {
 	 */
 	public static Comparator<AddressBookEntry> COMPARE_BY_ZIP = new Comparator<AddressBookEntry>() {
         public int compare(AddressBookEntry one, AddressBookEntry other) {
-        	return Integer.compare(one.zip, other.zip);
+        	return Integer.valueOf(one.zip).compareTo(Integer.valueOf(other.zip));
         }
 	};
 
